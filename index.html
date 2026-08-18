@@ -1726,409 +1726,588 @@
 
     </div>
 
-
     <!-- ==========================================
-         CLIMA
-         OPEN-METEO
-    =========================================== -->
+     CLIMA
+     OPEN-METEO + UBICACIÓN AUTOMÁTICA
+========================================== -->
 
-    <script>
+<script>
 
-        (function(){
+    (function(){
 
-            "use strict";
-
-
-            const barra =
-                document.getElementById(
-                    "barraClima"
-                );
+        "use strict";
 
 
-            if(!barra){
-                return;
-            }
+        const barra =
+            document.getElementById(
+                "barraClima"
+            );
 
 
-            /* ======================================
-   UBICACIÓN AUTOMÁTICA
-======================================= */
-
-let LATITUD = null;
-let LONGITUD = null;
+        if(!barra){
+            return;
+        }
 
 
-/* ======================================
-   OBTENER UBICACIÓN
-======================================= */
+        /* ======================================
+           UBICACIÓN
+        ======================================= */
 
-function obtenerUbicacion(){
+        let LATITUD = null;
+        let LONGITUD = null;
 
-    return new Promise(
-        function(resolve, reject){
-
-            if(
-                !navigator.geolocation
-            ){
-
-                reject(
-                    new Error(
-                        "La geolocalización no está disponible."
-                    )
-                );
-
-                return;
-            }
+        let nombreUbicacion =
+            "Ubicación actual";
 
 
-            navigator.geolocation.getCurrentPosition(
+        /* ======================================
+           OBTENER UBICACIÓN
+        ======================================= */
 
-                function(posicion){
+        function obtenerUbicacion(){
 
-                    LATITUD =
-                        posicion.coords.latitude;
+            return new Promise(
+                function(resolve, reject){
 
-                    LONGITUD =
-                        posicion.coords.longitude;
+                    if(
+                        !navigator.geolocation
+                    ){
+
+                        reject(
+                            new Error(
+                                "La geolocalización no está disponible."
+                            )
+                        );
+
+                        return;
+                    }
 
 
-                    resolve();
+                    navigator.geolocation.getCurrentPosition(
 
-                },
+                        function(posicion){
 
-                function(error){
+                            LATITUD =
+                                posicion.coords.latitude;
 
-                    reject(error);
+                            LONGITUD =
+                                posicion.coords.longitude;
 
-                },
 
-                {
-                    enableHighAccuracy:true,
-                    timeout:10000,
-                    maximumAge:300000
+                            resolve();
+
+                        },
+
+                        function(error){
+
+                            reject(error);
+
+                        },
+
+                        {
+                            enableHighAccuracy:true,
+                            timeout:10000,
+                            maximumAge:300000
+                        }
+
+                    );
+
                 }
-
             );
 
         }
-    );
-
-}
 
 
-            /* ======================================
-               ESTADOS DEL TIEMPO
-            ======================================= */
+        /* ======================================
+           OBTENER LOCALIDAD
+        ======================================= */
 
-            function obtenerDescripcionClima(
-                codigo
-            ){
+        async function obtenerNombreUbicacion(){
 
-                const estados = {
-
-                    0:{
-                        icono:"wb_sunny",
-                        texto:"Despejado"
-                    },
-
-                    1:{
-                        icono:"partly_cloudy_day",
-                        texto:"Despejado"
-                    },
-
-                    2:{
-                        icono:"partly_cloudy_day",
-                        texto:"Parcialmente nublado"
-                    },
-
-                    3:{
-                        icono:"cloud",
-                        texto:"Nublado"
-                    },
-
-                    45:{
-                        icono:"foggy",
-                        texto:"Niebla"
-                    },
-
-                    48:{
-                        icono:"foggy",
-                        texto:"Niebla"
-                    },
-
-                    51:{
-                        icono:"rainy",
-                        texto:"Llovizna"
-                    },
-
-                    53:{
-                        icono:"rainy",
-                        texto:"Llovizna"
-                    },
-
-                    55:{
-                        icono:"rainy",
-                        texto:"Llovizna"
-                    },
-
-                    61:{
-                        icono:"rainy",
-                        texto:"Lluvia"
-                    },
-
-                    63:{
-                        icono:"rainy",
-                        texto:"Lluvia"
-                    },
-
-                    65:{
-                        icono:"rainy",
-                        texto:"Lluvia fuerte"
-                    },
-
-                    71:{
-                        icono:"weather_snowy",
-                        texto:"Nieve"
-                    },
-
-                    73:{
-                        icono:"weather_snowy",
-                        texto:"Nieve"
-                    },
-
-                    75:{
-                        icono:"weather_snowy",
-                        texto:"Nieve fuerte"
-                    },
-
-                    80:{
-                        icono:"rainy",
-                        texto:"Chubascos"
-                    },
-
-                    81:{
-                        icono:"rainy",
-                        texto:"Chubascos"
-                    },
-
-                    82:{
-                        icono:"rainy",
-                        texto:"Chubascos fuertes"
-                    },
-
-                    95:{
-                        icono:"thunderstorm",
-                        texto:"Tormenta"
-                    },
-
-                    96:{
-                        icono:"thunderstorm",
-                        texto:"Tormenta"
-                    },
-
-                    99:{
-                        icono:"thunderstorm",
-                        texto:"Tormenta fuerte"
-                    }
-
-                };
-
-
-                return estados[codigo] || {
-
-                    icono:"cloud",
-
-                    texto:"Condiciones actuales"
-
-                };
-
-            }
-
-
-            /* ======================================
-               DIRECCIÓN DEL VIENTO
-            ======================================= */
-
-            function obtenerDireccion(
-                grados
-            ){
-
-                const direcciones = [
-
-                    "N",
-                    "NE",
-                    "E",
-                    "SE",
-                    "S",
-                    "SO",
-                    "O",
-                    "NO"
-
-                ];
-
-
-                const indice =
-                    Math.round(
-                        grados / 45
-                    ) % 8;
-
-
-                return direcciones[
-                    indice
-                ];
-
-            }
-
-
-            /* ======================================
-               MOSTRAR CLIMA
-            ======================================= */
-
-            function mostrarClima(
-                datos
-            ){
+            try{
 
                 if(
-                    !datos ||
-                    !datos.current
+                    LATITUD === null ||
+                    LONGITUD === null
                 ){
 
+                    return;
+
+                }
+
+
+                const url =
+                    "https://nominatim.openstreetmap.org/reverse" +
+                    "?format=jsonv2" +
+                    "&lat=" +
+                    encodeURIComponent(
+                        LATITUD
+                    ) +
+                    "&lon=" +
+                    encodeURIComponent(
+                        LONGITUD
+                    ) +
+                    "&zoom=10" +
+                    "&addressdetails=1" +
+                    "&accept-language=es";
+
+
+                const respuesta =
+                    await fetch(
+                        url,
+                        {
+                            headers:{
+                                "Accept":
+                                    "application/json"
+                            },
+                            cache:"no-store"
+                        }
+                    );
+
+
+                if(!respuesta.ok){
+
                     throw new Error(
-                        "Datos meteorológicos inválidos."
+                        "No se pudo obtener la localidad."
                     );
 
                 }
 
 
-                const actual =
-                    datos.current;
-
-
-                const temperatura =
-                    Math.round(
-                        actual.temperature_2m
-                    );
-
-
-                const humedad =
-                    Math.round(
-                        actual.relative_humidity_2m
-                    );
-
-
-                const viento =
-                    Math.round(
-                        actual.wind_speed_10m
-                    );
+                const datos =
+                    await respuesta.json();
 
 
                 const direccion =
-                    obtenerDireccion(
-                        actual.wind_direction_10m
+                    datos.address || {};
+
+
+                nombreUbicacion =
+                    direccion.city ||
+                    direccion.town ||
+                    direccion.village ||
+                    direccion.municipality ||
+                    direccion.county ||
+                    "Ubicación actual";
+
+
+            }catch(error){
+
+                console.warn(
+                    "AgroCount · No se pudo determinar la localidad:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /* ======================================
+           ESTADOS DEL TIEMPO
+        ======================================= */
+
+        function obtenerDescripcionClima(
+            codigo
+        ){
+
+            const estados = {
+
+                0:{
+                    icono:"wb_sunny",
+                    texto:"Despejado"
+                },
+
+                1:{
+                    icono:"partly_cloudy_day",
+                    texto:"Despejado"
+                },
+
+                2:{
+                    icono:"partly_cloudy_day",
+                    texto:"Parcialmente nublado"
+                },
+
+                3:{
+                    icono:"cloud",
+                    texto:"Nublado"
+                },
+
+                45:{
+                    icono:"foggy",
+                    texto:"Niebla"
+                },
+
+                48:{
+                    icono:"foggy",
+                    texto:"Niebla"
+                },
+
+                51:{
+                    icono:"rainy",
+                    texto:"Llovizna"
+                },
+
+                53:{
+                    icono:"rainy",
+                    texto:"Llovizna"
+                },
+
+                55:{
+                    icono:"rainy",
+                    texto:"Llovizna"
+                },
+
+                61:{
+                    icono:"rainy",
+                    texto:"Lluvia"
+                },
+
+                63:{
+                    icono:"rainy",
+                    texto:"Lluvia"
+                },
+
+                65:{
+                    icono:"rainy",
+                    texto:"Lluvia fuerte"
+                },
+
+                71:{
+                    icono:"weather_snowy",
+                    texto:"Nieve"
+                },
+
+                73:{
+                    icono:"weather_snowy",
+                    texto:"Nieve"
+                },
+
+                75:{
+                    icono:"weather_snowy",
+                    texto:"Nieve fuerte"
+                },
+
+                80:{
+                    icono:"rainy",
+                    texto:"Chubascos"
+                },
+
+                81:{
+                    icono:"rainy",
+                    texto:"Chubascos"
+                },
+
+                82:{
+                    icono:"rainy",
+                    texto:"Chubascos fuertes"
+                },
+
+                95:{
+                    icono:"thunderstorm",
+                    texto:"Tormenta"
+                },
+
+                96:{
+                    icono:"thunderstorm",
+                    texto:"Tormenta"
+                },
+
+                99:{
+                    icono:"thunderstorm",
+                    texto:"Tormenta fuerte"
+                }
+
+            };
+
+
+            return estados[codigo] || {
+
+                icono:"cloud",
+
+                texto:"Condiciones actuales"
+
+            };
+
+        }
+
+
+        /* ======================================
+           DIRECCIÓN DEL VIENTO
+        ======================================= */
+
+        function obtenerDireccion(
+            grados
+        ){
+
+            const direcciones = [
+
+                "N",
+                "NE",
+                "E",
+                "SE",
+                "S",
+                "SO",
+                "O",
+                "NO"
+
+            ];
+
+
+            const indice =
+                Math.round(
+                    grados / 45
+                ) % 8;
+
+
+            return direcciones[
+                indice
+            ];
+
+        }
+
+
+        /* ======================================
+           MOSTRAR CLIMA
+        ======================================= */
+
+        function mostrarClima(
+            datos
+        ){
+
+            if(
+                !datos ||
+                !datos.current
+            ){
+
+                throw new Error(
+                    "Datos meteorológicos inválidos."
+                );
+
+            }
+
+
+            const actual =
+                datos.current;
+
+
+            const temperatura =
+                Math.round(
+                    actual.temperature_2m
+                );
+
+
+            const humedad =
+                Math.round(
+                    actual.relative_humidity_2m
+                );
+
+
+            const viento =
+                Math.round(
+                    actual.wind_speed_10m
+                );
+
+
+            const direccion =
+                obtenerDireccion(
+                    actual.wind_direction_10m
+                );
+
+
+            const estado =
+                obtenerDescripcionClima(
+                    actual.weather_code
+                );
+
+
+            barra.innerHTML = `
+
+                <div
+                    class="clima-contenido">
+
+
+                    <div
+                        class="clima-item clima-principal">
+
+                        <span
+                            class="material-symbols-rounded">
+
+                            ${estado.icono}
+
+                        </span>
+
+
+                        <span
+                            class="clima-temperatura">
+
+                            ${temperatura}°C
+
+                        </span>
+
+
+                        <span
+                            class="clima-descripcion">
+
+                            ${estado.texto}
+
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="clima-item">
+
+                        <span
+                            class="material-symbols-rounded">
+
+                            location_on
+
+                        </span>
+
+
+                        <span
+                            class="clima-ubicacion">
+
+                            ${nombreUbicacion}
+
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="clima-item">
+
+                        <span
+                            class="material-symbols-rounded">
+
+                            humidity_percentage
+
+                        </span>
+
+
+                        <span>
+
+                            ${humedad}%
+
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        class="clima-item">
+
+                        <span
+                            class="material-symbols-rounded">
+
+                            air
+
+                        </span>
+
+
+                        <span>
+
+                            ${viento} km/h ${direccion}
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+        }
+
+
+        /* ======================================
+           CARGAR CLIMA
+        ======================================= */
+
+        async function cargarClima(){
+
+            try{
+
+                await obtenerUbicacion();
+
+
+                await obtenerNombreUbicacion();
+
+
+                const url =
+                    "https://api.open-meteo.com/v1/forecast" +
+                    "?latitude=" +
+                    encodeURIComponent(
+                        LATITUD
+                    ) +
+                    "&longitude=" +
+                    encodeURIComponent(
+                        LONGITUD
+                    ) +
+                    "&current=" +
+                    "temperature_2m," +
+                    "relative_humidity_2m," +
+                    "weather_code," +
+                    "wind_speed_10m," +
+                    "wind_direction_10m" +
+                    "&timezone=auto";
+
+
+                const respuesta =
+                    await fetch(
+                        url,
+                        {
+                            cache:"no-store"
+                        }
                     );
 
 
-                const estado =
-                    obtenerDescripcionClima(
-                        actual.weather_code
+                if(!respuesta.ok){
+
+                    throw new Error(
+                        "No se pudo obtener el clima."
                     );
+
+                }
+
+
+                const datos =
+                    await respuesta.json();
+
+
+                mostrarClima(
+                    datos
+                );
+
+
+            }catch(error){
+
+                console.error(
+                    "AgroCount · Error clima:",
+                    error
+                );
 
 
                 barra.innerHTML = `
 
                     <div
-                        class="clima-contenido">
+                        class="clima-error">
+
+                        <span
+                            class="material-symbols-rounded">
+
+                            cloud_off
+
+                        </span>
 
 
-                        <div
-                            class="clima-item clima-principal">
-
-                            <span
-                                class="material-symbols-rounded">
-
-                                ${estado.icono}
-
-                            </span>
-
-
-                            <span
-                                class="clima-temperatura">
-
-                                ${temperatura}°C
-
-                            </span>
-
-
-                            <span
-                                class="clima-descripcion">
-
-                                ${estado.texto}
-
-                            </span>
-
-                        </div>
-
-
-                        <div
-                            class="clima-item">
-
-                            <span
-                                class="material-symbols-rounded">
-
-                                location_on
-
-                            </span>
-
-
-                            <span
-                                class="clima-ubicacion">
-
-                                Sarandí del Yi
-
-                            </span>
-
-                        </div>
-
-
-                        <div
-                            class="clima-item">
-
-                            <span
-                                class="material-symbols-rounded">
-
-                                humidity_percentage
-
-                            </span>
-
-
-                            <span>
-
-                                ${humedad}%
-
-                            </span>
-
-                        </div>
-
-
-                        <div
-                            class="clima-item">
-
-                            <span
-                                class="material-symbols-rounded">
-
-                                air
-
-                            </span>
-
-
-                            <span>
-
-                                ${viento} km/h ${direccion}
-
-                            </span>
-
-                        </div>
-
+                        <span>
+                            Clima no disponible
+                        </span>
 
                     </div>
 
@@ -2136,118 +2315,34 @@ function obtenerUbicacion(){
 
             }
 
-
-            /* ======================================
-               CARGAR CLIMA
-            ======================================= */
-
-            async function cargarClima(){
-
-                try{
-
-                    await obtenerUbicacion();
-
-                    const url =
-                        "https://api.open-meteo.com/v1/forecast" +
-                        "?latitude=" +
-                        LATITUD +
-                        "&longitude=" +
-                        LONGITUD +
-                        "&current=" +
-                        "temperature_2m," +
-                        "relative_humidity_2m," +
-                        "weather_code," +
-                        "wind_speed_10m," +
-                        "wind_direction_10m" +
-                        "&timezone=America%2FMontevideo";
+        }
 
 
-                    const respuesta =
-                        await fetch(
-                            url,
-                            {
-                                cache:"no-store"
-                            }
-                        );
+        /* ======================================
+           CARGA INICIAL
+        ======================================= */
+
+        cargarClima();
 
 
-                    if(!respuesta.ok){
+        /* ======================================
+           ACTUALIZACIÓN DEL CLIMA
+        ======================================= */
 
-                        throw new Error(
-                            "No se pudo obtener el clima."
-                        );
+        setInterval(
+            cargarClima,
+            15 * 60 * 1000
+        );
 
-                    }
+    })();
 
-
-                    const datos =
-                        await respuesta.json();
-
-
-                    mostrarClima(
-                        datos
-                    );
-
-
-                }catch(error){
-
-                    console.error(
-                        "AgroCount · Error clima:",
-                        error
-                    );
-
-
-                    barra.innerHTML = `
-
-                        <div
-                            class="clima-error">
-
-                            <span
-                                class="material-symbols-rounded">
-
-                                cloud_off
-
-                            </span>
-
-
-                            <span>
-                                Clima no disponible
-                            </span>
-
-                        </div>
-
-                    `;
-
-                }
-
-            }
-
-
-            /* ======================================
-               CARGA INICIAL
-            ======================================= */
-
-            cargarClima();
-
-
-            /* ======================================
-               ACTUALIZACIÓN
-            ======================================= */
-
-            setInterval(
-                cargarClima,
-                15 * 60 * 1000
-            );
-
-        })();
-
-    </script>
-
+</script>
 
     <!-- ==========================================
-         JAVASCRIPT AGROCOUNT
-         ARCHIVOS EN LA RAÍZ
-    =========================================== -->
+     JAVASCRIPT AGROCOUNT
+     ARCHIVOS EN LA RAÍZ
+========================================== -->
+    
 
     <script src="utilidades.js"></script>
 
