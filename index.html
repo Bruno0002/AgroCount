@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <!-- ==========================================
+         AGROCOUNT V4
+         Sistema de Gestión Ganadera
+    =========================================== -->
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="theme-color"
+        content="#2E7D32">
+
+    <meta
+        name="description"
+        content="AgroCount - Gestión Ganadera">
+
+    <meta
+        name="color-scheme"
+        content="light">
+
+    <!-- ==========================================
+         PWA
+    =========================================== -->
+
+    <link
+        rel="manifest"
+        href="./manifest.json">
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes">
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes">
+
+    <meta
+        name="apple-mobile-web-app-status-bar-style"
+        content="default">
+
+    <meta
+        name="apple-mobile-web-app-title"
+        content="AgroCount">
+
+    <!-- ==========================================
+         ICONO
+    =========================================== -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="192x192"
+        href="./icon-192.png">
+
+    <title>AgroCount</title>
+
+
+    <!-- ==========================================
+         MATERIAL SYMBOLS
+    =========================================== -->
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded"
+        rel="stylesheet">
+
+
+    <!-- ==========================================
+         CSS
+    =========================================== -->
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- ==========================================
+         PANTALLA DE CARGA
+    =========================================== -->
+
+    <div
+        id="pantallaCarga"
+        class="pantalla-carga">
+
+        <div class="carga-contenido">
+
+            <div class="logo-carga">
+                🌿
+            </div>
+
+            <h1>
+                AgroCount
+            </h1>
+
+            <p>
+                Preparando el establecimiento...
+            </p>
+
+            <div class="barra-carga">
+
+                <div
+                    id="progresoCarga"
+                    class="progreso-carga">
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         MENÚ LATERAL
+    =========================================== -->
+
+    <aside
+        id="menuLateral"
+        class="menu-lateral">
+
+        <div class="menu-cabecera">
+
+            <div class="logo-menu">
+                🌿
+            </div>
+
+            <div>
+
+                <h2>
+                    AgroCount
+                </h2>
+
+                <p>
+                    Gestión Ganadera
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <nav class="menu-navegacion">
+
+
+            <button
+                type="button"
+                class="item-menu activo"
+                data-seccion="inicio">
+
+                <span
+                    class="emoji-menu"
+                    aria-hidden="true">
+                    🏠
+                </span>
+
+                <span>
+                    Inicio
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                data-seccion="potreros">
+
+                <span
+                    class="emoji-menu"
+                    aria-hidden="true">
+                    🌱
+                </span>
+
+                <span>
+                    Potreros
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                data-seccion="vacunos">
+
+                <span
+                    class="emoji-menu"
+                    aria-hidden="true">
+                    🐄
+                </span>
+
+                <span>
+                    Vacunos
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                data-seccion="ovinos">
+
+                <span
+                    class="emoji-menu"
+                    aria-hidden="true">
+                    🐑
+                </span>
+
+                <span>
+                    Ovinos
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                data-seccion="existencias">
+
+                <span
+                    class="emoji-menu"
+                    aria-hidden="true">
+                    📦
+                </span>
+
+                <span>
+                    Existencias
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                data-seccion="sanidad">
+
+                <span
+                    class="emoji-menu"
+                    aria-hidden="true">
+                    🛡️
+                </span>
+
+                <span>
+                    Sanidad
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                data-seccion="registros">
+
+                <span
+                    class="emoji-menu"
+                    aria-hidden="true">
+                    🕘
+                </span>
+
+                <span>
+                    Registros
+                </span>
+
+            </button>
+
+
+            <button
+                type="button"
+                class="item-menu"
+                data-seccion="configuracion">
+
+                <span
+                    class="emoji-menu"
+                    aria-hidden="true">
+                    ⚙️
+                </span>
+
+                <span>
+                    Configuración
+                </span>
+
+            </button>
+
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ==========================================
+         CONTENEDOR PRINCIPAL
+    =========================================== -->
+
+    <div class="contenedor-principal">
+
+
+        <header class="encabezado">
+
+            <button
+                type="button"
+                id="btnMenu"
+                class="btn-menu"
+                aria-label="Abrir menú">
+
+                <span class="material-symbols-rounded">
+                    menu
+                </span>
+
+            </button>
+
+
+            <div>
+
+                <h1 id="tituloSeccion">
+                    Inicio
+                </h1>
+
+                <p id="subtituloSeccion">
+                    Gestión Ganadera
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- ======================================
+             CONTENIDO PRINCIPAL
+        ======================================= -->
+
+        <main id="contenidoPrincipal">
+
+
+            <!-- ======================================
+                 INICIO
+            ======================================= -->
+
+            <section
+                id="inicio"
+                class="seccion activa">
+
+                <div class="dashboard">
+
+
+                    <div class="dashboard-bienvenida">
+
+                        <h2>
+                            Bienvenido
+                        </h2>
+
+                        <p>
+                            Resumen general del establecimiento
+                        </p>
+
+                    </div>
+
+
+                    <div
+                        id="resumenInicio"
+                        class="tarjetas-resumen">
+                    </div>
+
+
+                    <!-- NOTAS DEL PRODUCTOR -->
+
+                    <div class="panel-notas-productor">
+
+                        <div class="panel-notas-productor-cabecera">
+
+                            <div class="notas-productor-identificacion">
+
+                                <div class="notas-productor-icono">
+
+                                    <span class="material-symbols-rounded">
+                                        edit_note
+                                    </span>
+
+                                </div>
+
+                                <div class="notas-productor-textos">
+
+                                    <h3>
+                                        Notas del productor
+                                    </h3>
+
+                                    <p>
+                                        Anotaciones del establecimiento
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                id="btnEditarNotas"
+                                class="btn-secundario btn-editar-notas">
+
+                                <span class="material-symbols-rounded">
+                                    edit
+                                </span>
+
+                                Editar
+
+                            </button>
+
+                        </div>
+
+
+                        <div
+                            id="panelNotas"
+                            class="contenido-notas-productor">
+
+                            Todavía no hay notas registradas.
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- RECORDATORIOS -->
+
+                    <div class="panel-dashboard">
+
+                        <div class="panel-cabecera">
+
+                            <h3>
+                                Recordatorios
+                            </h3>
+
+                        </div>
+
+                        <div
+                            id="panelRecordatorios"
+                            class="panel-contenido">
+
+                            No hay recordatorios pendientes.
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+                 POTREROS
+            ======================================= -->
+
+            <section
+                id="potreros"
+                class="seccion">
+
+                <div class="cabecera-seccion">
+
+                    <div>
+
+                        <h2>
+                            Potreros
+                        </h2>
+
+                        <p>
+                            Administración de potreros
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="btnNuevoPotrero"
+                        class="btn-principal">
+
+                        <span class="material-symbols-rounded">
+                            add
+                        </span>
+
+                        Nuevo
+
+                    </button>
+
+                </div>
+
+
+                <input
+                    type="search"
+                    id="buscarPotrero"
+                    class="buscador"
+                    placeholder="Buscar..."
+                    autocomplete="off">
+
+
+                <div class="tabla-responsive">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Nombre
+                                </th>
+
+                                <th>
+                                    Ha
+                                </th>
+
+                                <th>
+                                    Animales
+                                </th>
+
+                                <th>
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="listaPotreros">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <form
+                    id="formPotrero"
+                    class="formulario formulario-oculto">
+
+                    <input
+                        type="hidden"
+                        id="potreroId">
+
+
+                    <div class="campo">
+
+                        <label for="nombrePotrero">
+                            Nombre
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nombrePotrero"
+                            autocomplete="off">
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="hectareasPotrero">
+                            Hectáreas
+                        </label>
+
+                        <input
+                            type="number"
+                            id="hectareasPotrero"
+                            min="0"
+                            step="0.01">
+
+                    </div>
+
+
+                    <div class="acciones-formulario">
+
+                        <button
+                            type="submit"
+                            class="btn-principal">
+
+                            Guardar
+
+                        </button>
+
+                        <button
+                            type="button"
+                            id="btnCancelarPotrero"
+                            class="btn-secundario">
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- ======================================
+                 VACUNOS
+            ======================================= -->
+
+            <section
+                id="vacunos"
+                class="seccion">
+
+                <div class="cabecera-seccion">
+
+                    <div>
+
+                        <h2>
+                            Vacunos
+                        </h2>
+
+                        <p>
+                            Gestión del rodeo
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="btnNuevoVacuno"
+                        class="btn-principal">
+
+                        <span class="material-symbols-rounded">
+                            add
+                        </span>
+
+                        Nuevo
+
+                    </button>
+
+                </div>
+
+
+                <input
+                    type="search"
+                    id="buscarVacuno"
+                    class="buscador"
+                    placeholder="Buscar..."
+                    autocomplete="off">
+
+
+                <div class="tabla-responsive">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Caravana
+                                </th>
+
+                                <th>
+                                    Sexo
+                                </th>
+
+                                <th>
+                                    Categoría
+                                </th>
+
+                                <th>
+                                    Potrero
+                                </th>
+
+                                <th>
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="listaVacunos">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <form
+                    id="formVacuno"
+                    class="formulario formulario-oculto">
+
+                    <input
+                        type="hidden"
+                        id="vacunoId">
+
+
+                    <div class="campo">
+
+                        <label for="caravanaVacuno">
+                            Caravana
+                        </label>
+
+                        <input
+                            type="text"
+                            id="caravanaVacuno"
+                            autocomplete="off">
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="sexoVacuno">
+                            Sexo
+                        </label>
+
+                        <select id="sexoVacuno">
+
+                            <option value="">
+                                Seleccionar
+                            </option>
+
+                            <option value="Macho">
+                                Macho
+                            </option>
+
+                            <option value="Hembra">
+                                Hembra
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="categoriaVacuno">
+                            Categoría
+                        </label>
+
+                        <select id="categoriaVacuno">
+
+                            <option value="">
+                                Seleccionar
+                            </option>
+
+                            <option value="Ternero">
+                                Ternero
+                            </option>
+
+                            <option value="Ternera">
+                                Ternera
+                            </option>
+
+                            <option value="Novillito">
+                                Novillito
+                            </option>
+
+                            <option value="Novillo">
+                                Novillo
+                            </option>
+
+                            <option value="Vaquillona">
+                                Vaquillona
+                            </option>
+
+                            <option value="Vaca">
+                                Vaca
+                            </option>
+
+                            <option value="Toro">
+                                Toro
+                            </option>
+
+                            <option value="Buey">
+                                Buey
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="razaVacuno">
+                            Raza
+                        </label>
+
+                        <select id="razaVacuno">
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="pesoVacuno">
+                            Peso (kg)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="pesoVacuno"
+                            min="0"
+                            step="0.1">
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="fechaPesoVacuno">
+                            Fecha del pesaje
+                        </label>
+
+                        <input
+                            type="date"
+                            id="fechaPesoVacuno">
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="potreroVacuno">
+                            Potrero
+                        </label>
+
+                        <select id="potreroVacuno">
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="notaVacuno">
+                            Nota
+                        </label>
+
+                        <textarea
+                            id="notaVacuno"
+                            rows="2"></textarea>
+
+                    </div>
+
+
+                    <div class="acciones-formulario">
+
+                        <button
+                            type="submit"
+                            class="btn-principal">
+
+                            Guardar
+
+                        </button>
+
+                        <button
+                            type="button"
+                            id="btnCancelarVacuno"
+                            class="btn-secundario">
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- ======================================
+                 OVINOS
+            ======================================= -->
+
+            <section
+                id="ovinos"
+                class="seccion">
+
+                <div class="cabecera-seccion">
+
+                    <div>
+
+                        <h2>
+                            Ovinos
+                        </h2>
+
+                        <p>
+                            Gestión del rodeo ovino
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="btnNuevoOvino"
+                        class="btn-principal">
+
+                        <span class="material-symbols-rounded">
+                            add
+                        </span>
+
+                        Nuevo
+
+                    </button>
+
+                </div>
+
+
+                <input
+                    type="search"
+                    id="buscarOvino"
+                    class="buscador"
+                    placeholder="Buscar..."
+                    autocomplete="off">
+
+
+                <div class="tabla-responsive">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Caravana
+                                </th>
+
+                                <th>
+                                    Sexo
+                                </th>
+
+                                <th>
+                                    Categoría
+                                </th>
+
+                                <th>
+                                    Potrero
+                                </th>
+
+                                <th>
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody id="listaOvinos">
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+                <form
+                    id="formOvino"
+                    class="formulario formulario-oculto">
+
+                    <input
+                        type="hidden"
+                        id="ovinoId">
+
+
+                    <div class="campo">
+
+                        <label for="caravanaOvino">
+                            Caravana
+                        </label>
+
+                        <input
+                            type="text"
+                            id="caravanaOvino"
+                            autocomplete="off">
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="sexoOvino">
+                            Sexo
+                        </label>
+
+                        <select id="sexoOvino">
+
+                            <option value="">
+                                Seleccionar
+                            </option>
+
+                            <option value="Macho">
+                                Macho
+                            </option>
+
+                            <option value="Hembra">
+                                Hembra
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="categoriaOvino">
+                            Categoría
+                        </label>
+
+                        <select id="categoriaOvino">
+
+                            <option value="">
+                                Seleccionar
+                            </option>
+
+                            <option value="Cordero">
+                                Cordero
+                            </option>
+
+                            <option value="Cordera">
+                                Cordera
+                            </option>
+
+                            <option value="Borrego">
+                                Borrego
+                            </option>
+
+                            <option value="Borrega">
+                                Borrega
+                            </option>
+
+                            <option value="Capón">
+                                Capón
+                            </option>
+
+                            <option value="Oveja">
+                                Oveja
+                            </option>
+
+                            <option value="Carnero">
+                                Carnero
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="razaOvino">
+                            Raza
+                        </label>
+
+                        <select id="razaOvino">
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="pesoOvino">
+                            Peso (kg)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="pesoOvino"
+                            min="0"
+                            step="0.1">
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="fechaPesoOvino">
+                            Fecha del pesaje
+                        </label>
+
+                        <input
+                            type="date"
+                            id="fechaPesoOvino">
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="potreroOvino">
+                            Potrero
+                        </label>
+
+                        <select id="potreroOvino">
+                        </select>
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="notaOvino">
+                            Nota
+                        </label>
+
+                        <textarea
+                            id="notaOvino"
+                            rows="2"></textarea>
+
+                    </div>
+
+
+                    <div class="acciones-formulario">
+
+                        <button
+                            type="submit"
+                            class="btn-principal">
+
+                            Guardar
+
+                        </button>
+
+                        <button
+                            type="button"
+                            id="btnCancelarOvino"
+                            class="btn-secundario">
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- ======================================
+                 EXISTENCIAS
+            ======================================= -->
+
+            <section
+                id="existencias"
+                class="seccion">
+
+                <div class="cabecera-seccion">
+
+                    <div>
+
+                        <h2>
+                            Existencias
+                        </h2>
+
+                        <p>
+                            Resumen del establecimiento
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="contenidoExistencias">
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+                 SANIDAD
+            ======================================= -->
+
+            <section
+                id="sanidad"
+                class="seccion">
+
+                <div class="cabecera-seccion">
+
+                    <div>
+
+                        <h2>
+                            Sanidad
+                        </h2>
+
+                        <p>
+                            Vacunas, tratamientos y controles
+                        </p>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        id="btnNuevaSanidad"
+                        class="btn-principal">
+
+                        <span class="material-symbols-rounded">
+                            add
+                        </span>
+
+                        Nuevo
+
+                    </button>
+
+                </div>
+
+
+                <div id="contenidoSanidad">
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+                 REGISTROS
+            ======================================= -->
+
+            <section
+                id="registros"
+                class="seccion">
+
+                <div class="cabecera-seccion">
+
+                    <div>
+
+                        <h2>
+                            Registros
+                        </h2>
+
+                        <p>
+                            Historial de movimientos
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="contenidoRegistros">
+                </div>
+
+            </section>
+
+
+            <!-- ======================================
+                 CONFIGURACIÓN
+            ======================================= -->
+
+            <section
+                id="configuracion"
+                class="seccion">
+
+                <div class="cabecera-seccion">
+
+                    <div>
+
+                        <h2>
+                            Configuración
+                        </h2>
+
+                        <p>
+                            Preferencias del sistema
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div id="contenidoConfiguracion">
+                </div>
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+    <!-- ==========================================
+         NOTIFICACIÓN
+    =========================================== -->
+
+    <div
+        id="notificacion"
+        class="notificacion oculto">
+
+        <span id="textoNotificacion">
+        </span>
+
+    </div>
+
+
+    <!-- ==========================================
+         MODAL DE CONFIRMACIÓN
+    =========================================== -->
+
+    <div
+        id="modalConfirmacion"
+        class="modal oculto">
+
+        <div class="modal-contenido">
+
+            <h2>
+                Confirmación
+            </h2>
+
+            <p id="mensajeConfirmacion">
+            </p>
+
+            <div class="acciones-modal">
+
+                <button
+                    type="button"
+                    id="btnCancelar"
+                    class="btn-secundario">
+
+                    Cancelar
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="btnConfirmar"
+                    class="btn-principal">
+
+                    Confirmar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+
+    <script src="js/utilidades.js"></script>
+
+    <script src="js/almacenamiento.js"></script>
+
+    <script src="js/menu.js"></script>
+
+    <script src="js/navegacion.js"></script>
+
+    <script src="js/potreros.js"></script>
+
+    <script src="js/vacunos.js"></script>
+
+    <script src="js/ovinos.js"></script>
+
+    <script src="js/existencias.js"></script>
+
+    <script src="js/registros.js"></script>
+
+    <script src="js/sanidad.js"></script>
+
+    <script src="js/resumen.js"></script>
+
+    <script src="js/configuracion.js"></script>
+
+    <script src="js/recordatorios.js"></script>
+
+    <script src="js/notificaciones.js"></script>
+
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
