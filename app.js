@@ -451,6 +451,40 @@ document.addEventListener(
 
 );
 
+// ==========================================
+// SERVICE WORKER · PWA
+// ==========================================
+
+if ("serviceWorker" in navigator){
+
+    window.addEventListener(
+        "load",
+        function(){
+
+            navigator.serviceWorker
+                .register("./service-worker.js")
+                .then(function(registro){
+
+                    console.log(
+                        "AgroCount: Service Worker registrado correctamente.",
+                        registro.scope
+                    );
+
+                })
+                .catch(function(error){
+
+                    console.error(
+                        "AgroCount: error registrando Service Worker:",
+                        error
+                    );
+
+                });
+
+        }
+    );
+
+}
+
 
 // ==========================================
 // FIN DEL ARCHIVO
