@@ -3385,6 +3385,18 @@ a{
 
 }
 
+/* ==========================================
+   CLIMA · SOLO EN INICIO
+========================================== */
+
+body:has(#inicio.seccion.activa) #barraClima{
+    display:block;
+}
+
+body:not(:has(#inicio.seccion.activa)) #barraClima{
+    display:none;
+}
+
 
 /* =========================================================
    FIN STYLE.CSS
