@@ -1751,14 +1751,69 @@
 
 
             /* ======================================
-               SARANDÍ DEL YI
-            ======================================= */
+   UBICACIÓN AUTOMÁTICA
+======================================= */
 
-            const LATITUD =
-                -33.3436;
+let LATITUD = null;
+let LONGITUD = null;
 
-            const LONGITUD =
-                -55.6317;
+
+/* ======================================
+   OBTENER UBICACIÓN
+======================================= */
+
+function obtenerUbicacion(){
+
+    return new Promise(
+        function(resolve, reject){
+
+            if(
+                !navigator.geolocation
+            ){
+
+                reject(
+                    new Error(
+                        "La geolocalización no está disponible."
+                    )
+                );
+
+                return;
+            }
+
+
+            navigator.geolocation.getCurrentPosition(
+
+                function(posicion){
+
+                    LATITUD =
+                        posicion.coords.latitude;
+
+                    LONGITUD =
+                        posicion.coords.longitude;
+
+
+                    resolve();
+
+                },
+
+                function(error){
+
+                    reject(error);
+
+                },
+
+                {
+                    enableHighAccuracy:true,
+                    timeout:10000,
+                    maximumAge:300000
+                }
+
+            );
+
+        }
+    );
+
+}
 
 
             /* ======================================
@@ -2089,6 +2144,8 @@
             async function cargarClima(){
 
                 try{
+
+                    await obtenerUbicacion();
 
                     const url =
                         "https://api.open-meteo.com/v1/forecast" +
