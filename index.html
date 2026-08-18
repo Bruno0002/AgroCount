@@ -2374,6 +2374,36 @@
 
     <script src="app.js"></script>
 
+    
+<script>
+    if ("serviceWorker" in navigator) {
+
+        window.addEventListener("load", function(){
+
+            navigator.serviceWorker.register(
+                "./service-worker.js"
+            )
+            .then(function(registro){
+
+                console.log(
+                    "AgroCount · Service Worker registrado:",
+                    registro.scope
+                );
+
+            })
+            .catch(function(error){
+
+                console.error(
+                    "AgroCount · Error registrando Service Worker:",
+                    error
+                );
+
+            });
+
+        });
+
+    }
+</script>
 
 </body>
 
